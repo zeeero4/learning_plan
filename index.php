@@ -55,7 +55,7 @@ class Car{
 class Taxi extends Car
 {
     private $passenger;
-    
+
     public function infomation()
     {
         echo '車の車種:' . $this->name . '、' .  '車体番号:' . $this->number . '、' . 'カラー:' . $this->color . '、' . '乗車人数は' . $this->passenger . '人です。<br>';
@@ -69,7 +69,7 @@ class Taxi extends Car
     public function lower($number)
     {
         if ($this->passenger - $number >= 0){
-            $this->passenger = $this->passenger - $number;
+            $this->passenger -= $number;
             echo $number . '人降車しました。';
         } else {
             echo '降車人数に誤りがあります。';
