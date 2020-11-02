@@ -3,12 +3,11 @@
 // 設定ファイルと関数ファイルを読み込む
 require_once('config.php');
 require_once('functions.php');
-require_once('edit.php');
 
 // DBに接続
 $dbh = connectDb(); // 特にエラー表示がなければOK
 
-$sql = "SELECT * FROM plans WHERE status = 'notyet' ORDER BY due_date ASC";
+$sql = "SELECT * FROM plans WHERE status = 'notyet' ORDER BY due_date DESC";
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
 $notyet_plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -66,14 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="" method="post">
             <label>学習内容:</label>
             <input type="text" name="title">
-            <span style="color:red;"><?= h($errors['title']) ?></span>
-        </form>
-
-        <div>
+            <span style="color:red;"><?= h($errors['title']) ?></span><br>
+        
             <label>期限日:</label>
-            <input type="date"name="日付">
+            <input type="date" name="due_date">
             <input type="submit" value="追加">
-        </div>
+        </form>
     </div>
 
     <h2>未達成</h2>
@@ -81,20 +78,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php foreach ($notyet_plans as $plan) : ?>
         <?php if (date('Y/m/d') >= $plan['due_date']) : ?>
             <li class="expired">
-
             <?php else : ?>
             <li>
-            <?php endif; ?>
-                <a href="done.php?id=<?= h($task['id']) ?>">[完了]</a>
-                <a href="done.php?id=<?= h($task['id']) ?>">[編集]</a>
+            <?php endif ; ?>
+                <a href="done.php?id=<?= h($plan['id']) ?>">[完了]</a>
+                <a href="edit.php?id=<?= h($plan['id']) ?>">[編集]</a>
                 <?= h($plan['title']) ?>
+                <?= h($plan['due_date']) ?>
 
             </li>
         <?php endforeach; ?>
     </ul>
-
     <hr>
-
     <h2>達成済み</h2>
         <ul>
         <?php foreach ($done_plans as $plan) : ?>
@@ -102,8 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?= h($plan['title']) ?>
             </li>
         <?php endforeach; ?>
-    </ul>
-
+        </ul>
 </body>
-
 </html>
