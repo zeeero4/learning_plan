@@ -7,7 +7,7 @@ require_once('functions.php');
 // DBに接続
 $dbh = connectDb(); // 特にエラー表示がなければOK
 
-$sql = "SELECT * FROM plans WHERE status = 'notyet' ORDER BY due_date DESC";
+$sql = "SELECT * FROM plans WHERE status = 'notyet' ORDER BY 'due_date' DESC";
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
 $notyet_plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
