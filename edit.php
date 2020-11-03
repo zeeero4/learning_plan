@@ -33,17 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors['title'] = '学習内容を入力してください';
     }
 
-if ($due_date == '') {
+    if ($due_date == '') {
     $errors['due_date'] = '期限日を入力してください';
-}
+    }
 
-if ($title == $plan['title'] && $due_date == $plan['due_date']) {
+    if ($title == $plan['title'] && $due_date == $plan['due_date']) {
     $errors['title'] = '変更内容がありません';
-}
+    }
 
 // エラーが1つもなければレコードを更新
-if (!$errors) {
-    $sql = 'UPDATE plans SET title = :title WHERE id = :id';
+    if (!$errors) {
+        $sql = 'UPDATE plans SET title = :title WHERE id = :id';
         $stmt = $dbh->prepare($sql);
         $stmt->bindParam(':title', $title, PDO::PARAM_STR);
         $stmt->bindParam(':due_date', $due_date, PDO::PARAM_STR);
