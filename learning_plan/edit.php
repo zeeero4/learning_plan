@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors['title'] = '変更内容がありません';
     }
 
-// エラーが1つもなければレコードを更新します
+// エラーが1つもなければレコードを更新
     if (!$errors) {
     $sql = 'UPDATE plans SET title = :title WHERE id = :id';
         $stmt = $dbh->prepare($sql);
